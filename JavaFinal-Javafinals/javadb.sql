@@ -3,9 +3,9 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: May 31, 2021 at 05:05 AM
+-- Generation Time: Jun 02, 2021 at 09:51 AM
 -- Server version: 10.4.17-MariaDB
--- PHP Version: 7.4.15
+-- PHP Version: 8.0.2
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -24,6 +24,27 @@ SET time_zone = "+00:00";
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `admin`
+--
+
+CREATE TABLE `admin` (
+  `id` int(11) NOT NULL,
+  `username` varchar(255) NOT NULL,
+  `password` varchar(255) NOT NULL,
+  `status` varchar(255) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `admin`
+--
+
+INSERT INTO `admin` (`id`, `username`, `password`, `status`) VALUES
+(5, 'Jessa123', 'jessa14312', 'Active'),
+(8, 'Emelisa Rafols', 'rafolsem', 'Active');
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `brand`
 --
 
@@ -38,54 +59,11 @@ CREATE TABLE `brand` (
 --
 
 INSERT INTO `brand` (`id`, `brand`, `status`) VALUES
-(36, 'RealMe', 'Active'),
-(37, 'Samsung', 'Active'),
-(40, 'RealMe', 'Active'),
-(42, 'asdadad', 'Active');
-
--- --------------------------------------------------------
-
---
--- Table structure for table `cashier`
---
-
-CREATE TABLE `cashier` (
-  `id` int(11) NOT NULL,
-  `username` varchar(255) NOT NULL,
-  `password` varchar(255) NOT NULL,
-  `status` varchar(255) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-
---
--- Dumping data for table `cashier`
---
-
-INSERT INTO `cashier` (`id`, `username`, `password`, `status`) VALUES
-(5, 'Jessa123', 'jessa14312', 'Active'),
-(6, 'Emelisa', 'rafols', 'Active');
-
--- --------------------------------------------------------
-
---
--- Table structure for table `category`
---
-
-CREATE TABLE `category` (
-  `id` int(11) NOT NULL,
-  `category` varchar(255) NOT NULL,
-  `status` varchar(255) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-
---
--- Dumping data for table `category`
---
-
-INSERT INTO `category` (`id`, `category`, `status`) VALUES
-(16, 'smartPhone', 'DeActive'),
-(23, 'MobilePhone', 'Active'),
-(24, 'smartPhone', 'DeActive'),
-(25, 'motorcycle', 'Active'),
-(26, 'sad', 'Active');
+(43, 'Yamaha', 'Active'),
+(44, 'BMW', 'Active'),
+(45, 'Suzuki', 'Active'),
+(46, 'Kawasaki', 'Active'),
+(47, 'Ducati', 'Active');
 
 -- --------------------------------------------------------
 
@@ -96,8 +74,6 @@ INSERT INTO `category` (`id`, `category`, `status`) VALUES
 CREATE TABLE `product` (
   `id` int(11) NOT NULL,
   `product` varchar(255) NOT NULL,
-  `description` text NOT NULL,
-  `cat_id` int(11) NOT NULL,
   `brand_id` int(11) NOT NULL,
   `cost_price` int(11) NOT NULL,
   `retail_price` int(11) NOT NULL,
@@ -110,8 +86,8 @@ CREATE TABLE `product` (
 -- Dumping data for table `product`
 --
 
-INSERT INTO `product` (`id`, `product`, `description`, `cat_id`, `brand_id`, `cost_price`, `retail_price`, `qty`, `barcode`, `status`) VALUES
-(13, 'Cellphone', 'Good for gaming', 16, 36, 14000, 12999, 50, 241223, 'Active');
+INSERT INTO `product` (`id`, `product`, `brand_id`, `cost_price`, `retail_price`, `qty`, `barcode`, `status`) VALUES
+(17, 'Motorcycle', 44, 100000, 100000, 20, 123456, 'Active');
 
 -- --------------------------------------------------------
 
@@ -122,7 +98,7 @@ INSERT INTO `product` (`id`, `product`, `description`, `cat_id`, `brand_id`, `co
 CREATE TABLE `sales` (
   `id` int(11) NOT NULL,
   `date` varchar(255) NOT NULL,
-  `cashier` varchar(255) NOT NULL,
+  `admin` varchar(255) NOT NULL,
   `subtotal` int(11) NOT NULL,
   `pay` int(11) NOT NULL,
   `balance` int(11) NOT NULL
@@ -132,15 +108,10 @@ CREATE TABLE `sales` (
 -- Dumping data for table `sales`
 --
 
-INSERT INTO `sales` (`id`, `date`, `cashier`, `subtotal`, `pay`, `balance`) VALUES
+INSERT INTO `sales` (`id`, `date`, `admin`, `subtotal`, `pay`, `balance`) VALUES
 (10, '2021/05/12', 'john', 1500, 2000, 500),
-(11, '2021/05/12', 'john', 11998, 12000, 2),
-(12, '2021/05/12', 'john', 11998, 12000, 2),
-(13, '2021/05/12', 'john', 47994, 50000, 2006),
-(14, '2021/05/13', 'john ', 29995, 30000, 5),
-(15, '2021/05/13', 'john', 11998, 12000, 2),
-(16, '2021/05/13', 'john', 119980, 119990, 10),
-(17, '2021/05/28', 'jLabel13', 649950, 649951, 1);
+(18, '2021/06/02', 'Emelisa', 519960, 519961, 1),
+(20, '2021/06/02', 'User', 480, 500, 20);
 
 -- --------------------------------------------------------
 
@@ -179,28 +150,25 @@ INSERT INTO `sales_product` (`id`, `sales_id`, `product_id`, `sell_price`, `qty`
 (15, 14, 241223, 5999, 5, 29995),
 (16, 15, 241223, 5999, 2, 11998),
 (17, 16, 241223, 5999, 20, 119980),
-(18, 17, 241223, 12999, 50, 649950);
+(18, 17, 241223, 12999, 50, 649950),
+(19, 18, 241223, 12999, 40, 519960),
+(20, 19, 14312, 100000, 50, 5000000),
+(21, 20, 143123, 60, 8, 480);
 
 --
 -- Indexes for dumped tables
 --
 
 --
+-- Indexes for table `admin`
+--
+ALTER TABLE `admin`
+  ADD PRIMARY KEY (`id`);
+
+--
 -- Indexes for table `brand`
 --
 ALTER TABLE `brand`
-  ADD PRIMARY KEY (`id`);
-
---
--- Indexes for table `cashier`
---
-ALTER TABLE `cashier`
-  ADD PRIMARY KEY (`id`);
-
---
--- Indexes for table `category`
---
-ALTER TABLE `category`
   ADD PRIMARY KEY (`id`);
 
 --
@@ -226,40 +194,34 @@ ALTER TABLE `sales_product`
 --
 
 --
+-- AUTO_INCREMENT for table `admin`
+--
+ALTER TABLE `admin`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+
+--
 -- AUTO_INCREMENT for table `brand`
 --
 ALTER TABLE `brand`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=43;
-
---
--- AUTO_INCREMENT for table `cashier`
---
-ALTER TABLE `cashier`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
-
---
--- AUTO_INCREMENT for table `category`
---
-ALTER TABLE `category`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=27;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=48;
 
 --
 -- AUTO_INCREMENT for table `product`
 --
 ALTER TABLE `product`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
 
 --
 -- AUTO_INCREMENT for table `sales`
 --
 ALTER TABLE `sales`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=21;
 
 --
 -- AUTO_INCREMENT for table `sales_product`
 --
 ALTER TABLE `sales_product`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=19;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=22;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

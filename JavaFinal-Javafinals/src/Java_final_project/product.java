@@ -12,6 +12,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.Vector;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -31,6 +32,9 @@ public class product extends javax.swing.JFrame {
         initComponents();
         table_update();
         brand();
+        
+        getData();
+        
     }
 
     Connection con1;
@@ -144,7 +148,7 @@ public class product extends javax.swing.JFrame {
 
         cashierBtn.setBackground(new java.awt.Color(255, 255, 255));
         cashierBtn.setFont(new java.awt.Font("Tahoma", 0, 24)); // NOI18N
-        cashierBtn.setText("Cashier");
+        cashierBtn.setText("Admin");
         cashierBtn.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 cashierBtnMouseClicked(evt);
@@ -161,26 +165,26 @@ public class product extends javax.swing.JFrame {
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(20, 20, 20)
+                .addGap(35, 35, 35)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(posBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 141, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(productBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 141, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(cashierBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 141, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(brandBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 141, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(50, Short.MAX_VALUE))
+                    .addComponent(posBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 141, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(brandBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 141, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(productBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 141, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(35, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(94, 94, 94)
+                .addGap(95, 95, 95)
                 .addComponent(productBtn)
-                .addGap(56, 56, 56)
+                .addGap(55, 55, 55)
                 .addComponent(brandBtn)
-                .addGap(63, 63, 63)
+                .addGap(45, 45, 45)
                 .addComponent(posBtn)
-                .addGap(75, 75, 75)
+                .addGap(68, 68, 68)
                 .addComponent(cashierBtn)
-                .addContainerGap(172, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         jPanel3.setBackground(new java.awt.Color(255, 204, 204));
@@ -218,6 +222,11 @@ public class product extends javax.swing.JFrame {
 
         addBtnBrand.setBackground(new java.awt.Color(0, 204, 255));
         addBtnBrand.setText("Add");
+        addBtnBrand.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                addBtnBrandMouseClicked(evt);
+            }
+        });
         addBtnBrand.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 addBtnBrandActionPerformed(evt);
@@ -389,8 +398,8 @@ public class product extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 169, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(23, 23, 23))
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 160, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(32, 32, 32))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -399,13 +408,13 @@ public class product extends javax.swing.JFrame {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-            .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
+            .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
 
         pack();
@@ -481,6 +490,29 @@ public class product extends javax.swing.JFrame {
         }
     }
 
+     public void getData(){
+     
+     int count = 0;
+try {
+Class.forName("com.mysql.jdbc.Driver");
+Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/javadb","root","");
+Statement stmt = con.createStatement();
+ResultSet datas = stmt.executeQuery("select * from product");
+DefaultTableModel model = (DefaultTableModel) productTable.getModel();
+while (datas.next()) {
+count = 1;
+model.addRow(new Object[]{datas.getInt("id"), datas.getString("product"), datas.getString("brand_id"), datas.getString("cost_price"),datas.getString("retail_price"),datas.getString("qty"),datas.getString("barcode"), datas.getString("status")});
+}
+if (count == 0) {
+JOptionPane.showMessageDialog(null, "No data found!.", "Alert", JOptionPane.WARNING_MESSAGE);
+}
+con.close();
+} catch (Exception e) {
+System.out.println(e.getMessage());
+}
+
+     
+     }
 
     private void addBtnBrandActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addBtnBrandActionPerformed
 
@@ -507,6 +539,10 @@ public class product extends javax.swing.JFrame {
 
             pst.executeUpdate();
             JOptionPane.showMessageDialog(null, "Product Addeddd Successfully");
+            
+            dispose();
+            product open =  new product();
+            open.setVisible(true);
             table_update();
             txtpro.setText("");
             txtbrand.setSelectedIndex(-1);
@@ -560,6 +596,9 @@ public class product extends javax.swing.JFrame {
             pst.setInt(8, id);
             pst.executeUpdate();
             JOptionPane.showMessageDialog(null, "Product Updated Successfully");
+            dispose();
+            product open =  new product();
+            open.setVisible(true);
             table_update();
             txtpro.setText("");
             txtbrand.setSelectedIndex(-1);
@@ -613,7 +652,9 @@ public class product extends javax.swing.JFrame {
                 pst.executeUpdate();
                 JOptionPane.showMessageDialog(null, "Product Deleted Successfully");
                 table_update();
-
+                dispose();
+                product open =  new product();
+                open.setVisible(true);
                 txtpro.setText("");
                 txtbrand.setSelectedIndex(-1);
                 txtcostp.setText("");
@@ -659,7 +700,7 @@ public class product extends javax.swing.JFrame {
 
     private void cashierBtnMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_cashierBtnMouseClicked
         // TODO add your handling code here:
-        new cashier().setVisible(true);
+        new Admin().setVisible(true);
         this.hide();
     }//GEN-LAST:event_cashierBtnMouseClicked
 
@@ -671,6 +712,10 @@ public class product extends javax.swing.JFrame {
         // TODO add your handling code here:
       
     }//GEN-LAST:event_cashierBtnActionPerformed
+
+    private void addBtnBrandMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_addBtnBrandMouseClicked
+        // TODO add your handling code here:
+    }//GEN-LAST:event_addBtnBrandMouseClicked
 
 
     /**

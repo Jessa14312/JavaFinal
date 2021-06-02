@@ -103,7 +103,7 @@ public class brand extends javax.swing.JFrame {
 
         cashierBtn.setBackground(new java.awt.Color(255, 255, 255));
         cashierBtn.setFont(new java.awt.Font("Tahoma", 0, 24)); // NOI18N
-        cashierBtn.setText("Cashier");
+        cashierBtn.setText("Admin");
         cashierBtn.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 cashierBtnActionPerformed(evt);
@@ -133,15 +133,15 @@ public class brand extends javax.swing.JFrame {
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jLabel3)
-                .addGap(67, 67, 67)
-                .addComponent(productBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(45, 45, 45)
+                .addGap(63, 63, 63)
                 .addComponent(brandBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(46, 46, 46)
+                .addGap(39, 39, 39)
+                .addComponent(productBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(42, 42, 42)
                 .addComponent(posBtn)
                 .addGap(35, 35, 35)
                 .addComponent(cashierBtn)
-                .addGap(421, 421, 421))
+                .addGap(435, 435, 435))
         );
 
         jPanel3.setBackground(new java.awt.Color(255, 204, 204));
@@ -227,6 +227,11 @@ public class brand extends javax.swing.JFrame {
         addBtnBrand.setBackground(new java.awt.Color(0, 204, 204));
         addBtnBrand.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
         addBtnBrand.setText("Add");
+        addBtnBrand.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                addBtnBrandMouseClicked(evt);
+            }
+        });
         addBtnBrand.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 addBtnBrandActionPerformed(evt);
@@ -311,7 +316,7 @@ public class brand extends javax.swing.JFrame {
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
+            .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 569, Short.MAX_VALUE)
             .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
 
@@ -368,7 +373,10 @@ public class brand extends javax.swing.JFrame {
             pst.setString(2, status);
             pst.executeUpdate();
             JOptionPane.showMessageDialog(null,"Brand Addeddd Successfully");
-     
+            dispose();
+            brand open =  new brand();
+            open.setVisible(true);
+            
             brands.setText("");
             stat.setSelectedIndex(-1);
             brands.requestFocus();
@@ -503,9 +511,13 @@ public class brand extends javax.swing.JFrame {
 
     private void cashierBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cashierBtnActionPerformed
         // TODO add your handling code here:
-        new cashier().setVisible(true);
+        new Admin().setVisible(true);
         this.hide();
     }//GEN-LAST:event_cashierBtnActionPerformed
+
+    private void addBtnBrandMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_addBtnBrandMouseClicked
+        // TODO add your handling code here:
+    }//GEN-LAST:event_addBtnBrandMouseClicked
 
     /**
      * @param args the command line arguments

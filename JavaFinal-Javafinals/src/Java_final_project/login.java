@@ -243,7 +243,7 @@ public class login extends javax.swing.JFrame {
             Class.forName("com.mysql.jdbc.Driver");
             con = DriverManager.getConnection("jdbc:mysql://localhost/javadb","root","");
             
-            pst = con.prepareStatement("select * from cashier where username =? and password =?");
+            pst = con.prepareStatement("select * from admin where username =? and password =?");
             
             pst.setString(1, username);
             pst.setString(2, password);
